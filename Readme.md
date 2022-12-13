@@ -3,7 +3,7 @@
 * Create SpringBoot Java project - Done
 * Create database
 * Write business service
-* Write controller for Rest API
+* Create controller for Rest API - Done
 * Write Repo for Database operations
 * Create docker file
 * Create k8s manifest
