@@ -2,7 +2,7 @@
 
 * Create SpringBoot Java project - Done
 * Create database
-* Write business service
+* Create business service - Done
 * Create controller for Rest API - Done
 * Write Repo for Database operations
 * Create docker file

@@ -13,8 +13,8 @@ public class GenerateIDController {
     private IDGeneratorService idGeneratorService;
 
     @GetMapping("/generate/id/v1")
-    public ResponseEntity<String> generateID() {
-        String id = idGeneratorService.generateID();
+    public ResponseEntity<Long> generateID() {
+        long id = idGeneratorService.generateID();
         return ResponseEntity.ok().body(id);
     }
 }
