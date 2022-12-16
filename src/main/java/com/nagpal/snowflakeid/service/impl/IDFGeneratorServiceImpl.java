@@ -19,7 +19,12 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
         int machineID = config.getMachineId();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(Long.toBinaryString(timeMS)).append(Integer.toBinaryString(machineID));
+        sb.append(Long.toBinaryString(timeMS));
+
+        String machineIDBinary  = Integer.toBinaryString(machineID);
+        machineIDBinary = String.format("%10s", machineIDBinary).replace(' ', '0');
+
+        sb.append(machineIDBinary);
 
         log.info("Binary string : {}", sb.toString());
         long id = Long.parseLong(sb.toString(), 2);
