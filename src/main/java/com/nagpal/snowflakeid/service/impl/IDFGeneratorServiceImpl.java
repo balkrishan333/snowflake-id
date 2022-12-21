@@ -12,19 +12,45 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
 
     @Autowired
     private Configuration config;
+
+    private long prevMS = 0;
+    private int prevCounter = 0;
+
     @Override
+    /*
+        Size - 64 bit
+        41 bit - time in ms
+        10 bit - Machine id
+        12 bit - MS counter
+        1 bit -  reserved
+     */
     public long generateID() {
         log.info("Entered generateID...");
         long timeMS = System.currentTimeMillis();
         int machineID = config.getMachineId();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(Long.toBinaryString(timeMS));
+        //reserve bit at starting
+        sb.append("0");
+
+        sb.append(Long.toBinaryString(timeMS)); // 41 bits time in ms
 
         String machineIDBinary  = Integer.toBinaryString(machineID);
-        machineIDBinary = String.format("%10s", machineIDBinary).replace(' ', '0');
-
+        machineIDBinary = String.format("%10s", machineIDBinary).replace(' ', '0'); //10 bits machine id
         sb.append(machineIDBinary);
+
+        int counter = prevCounter;
+        if (timeMS == prevMS) {
+            counter++;
+        } else {
+            counter = 0;
+            prevMS = timeMS;
+        }
+        prevCounter = counter;
+
+        //12 bit counter
+        String counterBits = String.format("%12s", Integer.toBinaryString(counter)).replace(' ', '0');
+        sb.append(counterBits);
 
         log.info("Binary string : {}", sb.toString());
         long id = Long.parseLong(sb.toString(), 2);
