@@ -1,10 +1,16 @@
 package com.nagpal.snowflakeid.service.impl;
 
 import com.nagpal.snowflakeid.Configuration;
+import com.nagpal.snowflakeid.IDGeneratorRepo;
+import com.nagpal.snowflakeid.entity.SnowFlakeId;
 import com.nagpal.snowflakeid.service.IDGeneratorService;
+import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -12,11 +18,14 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
 
     @Autowired
     private Configuration config;
+    @Autowired
+    private IDGeneratorRepo generatorRepo;
+    @Autowired
+    private IDGeneratorService self;
 
     private long prevMS = 0;
     private int prevCounter = 0;
 
-    @Override
     /*
         Size - 64 bit
         41 bit - time in ms
@@ -24,8 +33,29 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
         12 bit - MS counter
         1 bit -  reserved
      */
-    public long generateID() {
-        log.info("Entered generateID...");
+    @Override
+    @Transactional
+    public SnowFlakeId generateID() {
+        return generateIDs(1).get(0);
+    }
+
+    @Override
+    @Transactional
+    public List<SnowFlakeId> generateIDs(int batchSize) {
+        if (batchSize < 1) {
+            throw new IllegalArgumentException(String.format("Invalid batch size : %s" , batchSize));
+        }
+
+        List<SnowFlakeId> ids = new ArrayList<>();
+        for (int i = 0; i < batchSize; i++) {
+            ids.add(generateIdInternal());
+        }
+        generatorRepo.saveAll(ids);
+        return ids;
+    }
+
+    private SnowFlakeId generateIdInternal() {
+        log.info("Generating ID...");
         long timeMS = System.currentTimeMillis();
         int machineID = config.getMachineId();
 
@@ -55,6 +85,10 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
         log.info("Binary string : {}", sb.toString());
         long id = Long.parseLong(sb.toString(), 2);
         log.info("ID : {}", id);
-        return id;
+
+        SnowFlakeId flakeId = new SnowFlakeId();
+        flakeId.setUnique_id(id);
+
+        return flakeId;
     }
 }

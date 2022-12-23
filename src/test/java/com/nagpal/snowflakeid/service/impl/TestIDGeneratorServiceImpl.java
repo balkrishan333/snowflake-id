@@ -20,7 +20,7 @@ public class TestIDGeneratorServiceImpl {
         int size = 15;
         List<Long> ids = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            ids.add(idGeneratorService.generateID());
+            ids.add(idGeneratorService.generateID().getUnique_id());
         }
 
         Assertions.assertEquals(size, ids.size());

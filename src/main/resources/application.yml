@@ -1,2 +1,15 @@
 snowflake:
   machine-id: 1
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/snowflakeid
+    username: bnagpal1
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+  main:
+    allow-circular-references: true

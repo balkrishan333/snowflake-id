@@ -1,6 +1,13 @@
 package com.nagpal.snowflakeid.service;
 
+import com.nagpal.snowflakeid.entity.SnowFlakeId;
+
+import java.util.List;
+
 public interface IDGeneratorService {
 
-    public long generateID();
+    SnowFlakeId generateID();
+
+    List<SnowFlakeId> generateIDs(int batchSize);
+
 }
