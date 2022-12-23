@@ -1,10 +1,11 @@
 # Tasks
 
-* Create SpringBoot Java project - Done
-* Create database
-* Create business service - Done
-* Create controller for Rest API - Done
-* Write Repo for Database operations
+* Create SpringBoot Java project - **Done**
+* Create database - **Done**
+* Create business service - **Done**
+* Create controller for Rest API - **Done**
+* Write Repo for Database operations - **Done**
+* Save ids to DB - **Done**
 * Create docker file
 * Create k8s manifest
 * Create Angular UI
