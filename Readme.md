@@ -8,6 +8,8 @@
 * Save ids to DB - **Done**
 * Create docker file
 * Create k8s manifest
+* Deploy on EKS
+* Write terraform to create AWS infra
 * Create Angular UI
 * Integrate Bootstrap CSS
 
