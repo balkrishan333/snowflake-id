@@ -1,4 +1,4 @@
-package com.nagpal.snowflakeid;
+package com.nagpal.snowflakeid.repository;
 
 import com.nagpal.snowflakeid.entity.SnowFlakeId;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.nagpal.snowflakeid.service.impl;
 
-import com.nagpal.snowflakeid.Configuration;
-import com.nagpal.snowflakeid.IDGeneratorRepo;
+import com.nagpal.snowflakeid.config.Configuration;
+import com.nagpal.snowflakeid.repository.IDGeneratorRepo;
 import com.nagpal.snowflakeid.entity.SnowFlakeId;
 import com.nagpal.snowflakeid.service.IDGeneratorService;
 import jakarta.transaction.Transactional;

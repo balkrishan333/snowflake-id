@@ -1,4 +1,4 @@
-package com.nagpal.snowflakeid;
+package com.nagpal.snowflakeid.config;
 
 import lombok.Getter;
 import lombok.Setter;
