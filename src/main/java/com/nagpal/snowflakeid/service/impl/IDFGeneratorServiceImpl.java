@@ -47,9 +47,11 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
         }
 
         List<SnowFlakeId> ids = new ArrayList<>();
+        long startTime = System.currentTimeMillis();
         for (int i = 0; i < batchSize; i++) {
             ids.add(generateIdInternal());
         }
+        log.info("ID generation time : {}", (System.currentTimeMillis() - startTime));
         generatorRepo.saveAll(ids);
         return ids;
     }

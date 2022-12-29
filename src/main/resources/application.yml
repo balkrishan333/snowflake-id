@@ -9,9 +9,14 @@ spring:
     password: password
 
   jpa:
+    properties:
+      hibernate:
+        generate_statistics: true
+        jdbc:
+          batch_size: 30000
     hibernate:
       ddl-auto: update
-#      show-sql: true
+      show-sql: true
   main:
     allow-circular-references: true
 
