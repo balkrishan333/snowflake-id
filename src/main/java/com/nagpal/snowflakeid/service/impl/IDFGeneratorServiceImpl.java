@@ -55,7 +55,7 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
     }
 
     private SnowFlakeId generateIdInternal() {
-        log.info("Generating ID...");
+        log.debug("Generating ID...");
         long timeMS = System.currentTimeMillis();
         int machineID = config.getMachineId();
 
@@ -82,9 +82,9 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
         String counterBits = String.format("%12s", Integer.toBinaryString(counter)).replace(' ', '0');
         sb.append(counterBits);
 
-        log.info("Binary string : {}", sb.toString());
+        log.debug("Binary string : {}", sb.toString());
         long id = Long.parseLong(sb.toString(), 2);
-        log.info("ID : {}", id);
+        log.debug("ID : {}", id);
 
         SnowFlakeId flakeId = new SnowFlakeId();
         flakeId.setUnique_id(id);
