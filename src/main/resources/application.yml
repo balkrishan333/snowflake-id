@@ -3,13 +3,24 @@ snowflake:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/snowflakeid
-    username: bnagpal1
+    url: jdbc:postgresql://localhost:5432/snowflakeid?reWriteBatchedInserts=true
+#    username: bnagpal
+    username: postgres
     password: password
 
   jpa:
     hibernate:
       ddl-auto: update
-      show-sql: true
+#      show-sql: true
   main:
     allow-circular-references: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
