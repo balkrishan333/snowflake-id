@@ -13,21 +13,18 @@
 * Create Angular UI
 * Integrate Bootstrap CSS
 
-# Results
+# DB save performance Results
 
-## Inserting large data in DB
-* 100k records each in separate transaction - 2354918 ms
-* 100k records each separately without transaction - 2803729 ms
-* 100k records in batch of 100k - 10189 ms
-
-# Re-accessing stats -- Time = ID generation + save time
-## Record size - 100k
+## Re-accessing stats -- Time = ID generation + save time
+### Record size - 100k
 * without reWriteBatchedInserts,without batch_size,with saveAll - 12347 ms
-* with reWriteBatchedInserts,without batch_size,with saveAll - 11830 ms
+* with reWriteBatchedInserts,without batch_size,with saveAll    - 11830 ms
 * with reWriteBatchedInserts,with batch_size(100k),with saveAll - 6326 ms
-* with reWriteBatchedInserts,with batch_size(30k),with saveAll - 7470 ms
-## Record size - 500k
+* with reWriteBatchedInserts,with batch_size(30k),with saveAll  - 7470 ms
+* with copy, with reWriteBatchedInserts                         - 1326 ms
+### Record size - 500k
 * without reWriteBatchedInserts,without batch_size,with saveAll - 66530 ms
-* with reWriteBatchedInserts,without batch_size,with saveAll - 61111 ms
+* with reWriteBatchedInserts,without batch_size,with saveAll    - 61111 ms
 * with reWriteBatchedInserts,with batch_size(100k),with saveAll - 19750 ms
-* with reWriteBatchedInserts,with batch_size(30k),with saveAll - 17261 ms
+* with reWriteBatchedInserts,with batch_size(30k),with saveAll  - 17261 ms
+* with copy, with reWriteBatchedInserts                         - 3482 ms

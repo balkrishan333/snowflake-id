@@ -6,9 +6,16 @@ import com.nagpal.snowflakeid.entity.SnowFlakeId;
 import com.nagpal.snowflakeid.service.IDGeneratorService;
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
+import org.postgresql.copy.CopyManager;
+import org.postgresql.jdbc.PgConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +32,9 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
 
     private long prevMS = 0;
     private int prevCounter = 0;
+
+    private static final String SQL = "COPY snowflake_id (unique_id) FROM STDIN WITH " +
+            "                               (FORMAT TEXT, ENCODING 'UTF-8', DELIMITER '\t', HEADER false)";
 
     /*
         Size - 64 bit
@@ -54,6 +64,52 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
         log.info("ID generation time : {}", (System.currentTimeMillis() - startTime));
         generatorRepo.saveAll(ids);
         return ids;
+    }
+
+    @Override
+    public void copySave(int batchSize) {
+        Connection connection = get();
+        PgConnection unwrapped;
+        try {
+            unwrapped = connection.unwrap(PgConnection.class);
+            CopyManager copyManager = unwrapped.getCopyAPI();
+
+            List<SnowFlakeId> ids = new ArrayList<>();
+            for (int i = 0; i < batchSize; i++) {
+                ids.add(generateIdInternal());
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            ids.forEach(id -> {
+                sb.append(id.getUnique_id()).append("\n");
+            });
+
+            log.debug(sb.toString());
+
+            InputStream inputStream = new ByteArrayInputStream(sb.toString().getBytes());
+            copyManager.copyIn(SQL, inputStream);
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Connection get() {
+        String driver = "org.postgresql.Driver";
+        try {
+            try {
+                Class.forName(driver).getDeclaredConstructor().newInstance();
+            } catch (InvocationTargetException | NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/snowflakeid?reWriteBatchedInserts=true",
+                                                    "postgres", "password");
+
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+            throw new RuntimeException("Can not instantiate driver " + driver, ex);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Can not connect to database", ex);
+        }
     }
 
     private SnowFlakeId generateIdInternal() {

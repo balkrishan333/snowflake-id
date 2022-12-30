@@ -10,4 +10,6 @@ public interface IDGeneratorService {
 
     List<SnowFlakeId> generateIDs(int batchSize);
 
+    void copySave(int batchSize);
+
 }

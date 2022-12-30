@@ -32,4 +32,13 @@ public class GenerateIDController {
         log.info("ID generation and save time : {}", (System.currentTimeMillis() - startTime));
         return ResponseEntity.ok().body(ids.stream().map(SnowFlakeId::getUnique_id).toList());
     }
+
+    @GetMapping("/generate/id/v1/copysave")
+    public ResponseEntity<String> copySave(@RequestParam String size) {
+        long startTime = System.currentTimeMillis();
+        idGeneratorService.copySave(Integer.parseInt(size));
+        log.info("ID generation and save time : {}", (System.currentTimeMillis() - startTime));
+        return ResponseEntity.ok("CSV uploaded");
+    }
+
 }

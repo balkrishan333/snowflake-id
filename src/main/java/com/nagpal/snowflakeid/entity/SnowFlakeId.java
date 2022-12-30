@@ -11,7 +11,7 @@ import lombok.Setter;
 public class SnowFlakeId {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
