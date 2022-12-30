@@ -89,22 +89,30 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
 
             InputStream inputStream = new ByteArrayInputStream(sb.toString().getBytes());
             copyManager.copyIn(SQL, inputStream);
-            connection.close(); // TODO: haven't tested after this
+            connection.close();
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     private Connection get() {
-        String driver = "org.postgresql.Driver";
+        log.debug(config.getDriver());
+        log.debug(config.getUrl());
+        log.debug(config.getUsername());
+        log.debug(config.getPassword());
+
+        String driver = config.getDriver();
+        String url = config.getUrl();
+        String username = config.getUsername();
+        String password = config.getPassword();
+
         try {
             try {
                 Class.forName(driver).getDeclaredConstructor().newInstance();
             } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
-            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/snowflakeid?reWriteBatchedInserts=true",
-                                                    "postgres", "password");
+            return DriverManager.getConnection(url, username, password);
 
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
             throw new RuntimeException("Can not instantiate driver " + driver, ex);
