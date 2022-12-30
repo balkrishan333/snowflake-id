@@ -89,6 +89,7 @@ public class IDFGeneratorServiceImpl implements IDGeneratorService {
 
             InputStream inputStream = new ByteArrayInputStream(sb.toString().getBytes());
             copyManager.copyIn(SQL, inputStream);
+            connection.close(); // TODO: haven't tested after this
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
