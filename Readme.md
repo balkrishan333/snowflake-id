@@ -7,6 +7,8 @@
 * Write Repo for Database operations - **Done**
 * Save ids to DB - **Done**
 * Create docker file - **Done**
+* Docker Image with different layers
+* Build with Graal VM native image
 * Create k8s manifest
 * Deploy on EKS
 * Write terraform to create AWS infra
