@@ -6,12 +6,13 @@
 * Create controller for Rest API - **Done**
 * Write Repo for Database operations - **Done**
 * Save ids to DB - **Done**
-* Create docker file
+* Create docker file - **Done**
 * Create k8s manifest
 * Deploy on EKS
 * Write terraform to create AWS infra
 * Create Angular UI
 * Integrate Bootstrap CSS
+* Database performance benchmarks - **Done**
 
 # DB save performance Results
 
