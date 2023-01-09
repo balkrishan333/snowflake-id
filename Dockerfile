@@ -10,6 +10,5 @@ RUN mkdir /app
 ARG APPLICATION_JAR=snowflakeid.jar
 
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/$APPLICATION_JAR
-COPY build/libs/snowflakeid-0.0.1-SNAPSHOT.jar /app/$APPLICATION_JAR
 ENTRYPOINT ["java", "-jar", "/app/$APPLICATION_JAR"]
 
