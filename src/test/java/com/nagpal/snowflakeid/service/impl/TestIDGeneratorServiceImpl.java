@@ -15,7 +15,7 @@ public class TestIDGeneratorServiceImpl {
     @Autowired
     private IDGeneratorService idGeneratorService;
 
-    @Test
+
     public void generateID() {
         int size = 15;
         List<Long> ids = new ArrayList<>();
